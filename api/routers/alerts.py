@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from api.database import get_conexao
 
 router = APIRouter()
-@router.get("/alertas/atraso")
+@router.get("/alerts/atraso")
 def alertas_atraso():
     conn = get_conexao()
     if conn is None:
@@ -21,7 +21,7 @@ def alertas_atraso():
     
     return {"alertas": resultado}
 
-@router.get("/alertas/comportamento")
+@router.get("/alerts/comportamento")
 def alerta_comportamento_motorista():
     conn = get_conexao()
     if conn is None:
@@ -38,6 +38,58 @@ def alerta_comportamento_motorista():
         """
     )
     resultado = cursor.fetchall()
-    return {"alertas": resultado}
-
     conn.close()
+    return {"alertas_comportamento": resultado}
+
+@router.get("/alerts/atraso_frequente")
+def atraso_frequente():
+    conn= get_conexao()
+    if conn is None:
+        return {"erro": "Falha na conexão"}
+    
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT AVG(delivery_time_deviation) as media
+        FROM "SupplyChain"
+        HAVING AVG(delivery_time_deviation) > 1
+        """
+    )
+    resultado = cursor.fetchall()
+    conn.close()
+    return{"Média_desvio_entrega ":resultado}
+
+
+@router.get("/alerts/fadiga_critica")
+def fadiga_critica():
+    conn= get_conexao()
+    if conn is None:
+        return {"erro": "Falha na conexão"}
+    
+    cursor= conn.cursor()
+    cursor.execute("""
+            SELECT fatigue_monitoring_score
+            FROM "SupplyChain"
+            WHERE fatigue_monitoring_score> 0.4
+    """)
+    resultado = cursor.fetchall()
+    conn.close()
+    return{"Alerta_de_fadiga":resultado}
+
+@router.get("/alerts/risco_rota")
+def risco_rota():
+    conn= get_conexao()
+    if conn is None:
+        return {"erro": "Falha na conexão"}
+    
+    cursor= conn.cursor()
+    cursor.execute("""
+            SELECT route_risk_level
+            FROM "SupplyChain"
+            WHERE route_risk_level>8
+    """)
+    resultado = cursor.fetchall()
+    conn.close()
+    return{"Alerta_de_rota":resultado}
+
+
+        

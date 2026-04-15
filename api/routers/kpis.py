@@ -9,16 +9,19 @@ def contagem_por_risco():
     if conn is None:
         return {"erro": "Falha na conexão"}
     
-    cursor = conn.cursor()
-    cursor.execute("""
-        SELECT risk_classification, COUNT(*) as total
-        FROM "SupplyChain"
-        GROUP BY risk_classification
-    """)
-    resultado = cursor.fetchall()
-    conn.close()
+    try:
     
-    return {"dados": resultado}
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT risk_classification, COUNT(*) as total
+            FROM "SupplyChain"
+            GROUP BY risk_classification
+        """)
+        resultado = cursor.fetchall()
+        return {"dados": resultado}
+    
+    finally:
+        conn.close()
 
 @router.get("/kpis/tempo_entrega")
 def tempo_medio_entrega():
@@ -26,14 +29,112 @@ def tempo_medio_entrega():
     if conn is None:
         return {"erro":"Falha na conexão"}
     
-    cursor = conn.cursosr()
-    cursor.execute("""
-            SELECT AVG(lead_time_days)
-            FROM "SupplyChain"        
-        """
-    )
-    resultado = cursor.fetchall()
-    conn.close()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+                SELECT AVG(lead_time_days)
+                FROM "SupplyChain"        
+            """
+        )
+        resultado = cursor.fetchall()
+        return {"Tempo_medio_entrega":resultado}
+    
+    finally: 
+        conn.close()
 
-    return {"Tempo_medio_entrega":resultado}
+@router.get("/kpis/lead_time_medio")
+def lead_time_medio():
+    conn=get_conexao()
+    if conn is None:
+        return {"erro":"Falha na conexâo"}
+    
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT AVG(lead_time_days)
+            FROM "SupplyChain"
+        """)
+        resultado = cursor.fetchall()
+        return {"Tempo médio de lead":resultado}
+    
+    finally:
+        conn.close()
+
+@router.get("/kpis/shipping_costs")
+def custo_transporte():
+    conn=get_conexao()
+    if conn is None:
+        return {"erro":"Falha na conexâo"}
+    
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT AVG(shipping_costs)
+            FROM "SupplyChain"
+        """)
+        resultado = cursor.fetchall()
+        return {"custo_médio_transporte":resultado}
+    
+    finally:
+        conn.close()
+
+@router.get("/kpis/consumo_combustivel")
+def consumo_medio_combustivel():
+    conn=get_conexao()
+    if conn is None:
+        return {"erro":"Falha na conexâo"}
+    
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT AVG(fuel_consumption_rate)
+            FROM "SupplyChain"
+        """)
+        resultado = cursor.fetchall()
+        return {"Consumo médio de combustível":resultado}
+    
+    finally:
+        conn.close()
+
+@router.get("/kpis/taxa_média_atraso")
+def taxa_media_atraso():
+    conn=get_conexao()
+    if conn is None:
+        return {"erro":"Falha na conexâo"}
+    
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT AVG(delivery_time_deviation)
+            FROM "SupplyChain"
+        """)
+        resultado = cursor.fetchall()
+        return {"taxa_média_atraso":resultado}
+    
+    finally:
+        conn.close()
+
+@router.get("/kpis/taxa_fulfillment_pedidos")
+def taxa_fulfillment_pedidos():
+    conn=get_conexao()
+    if conn is None:
+        return {"erro":"Falha na conexâo"}
+    
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT AVG(order_fulfillment_status)
+            FROM "SupplyChain"
+        """)
+        resultado = cursor.fetchall()
+        return {"taxa_média_fulfillment":resultado}
+    
+    finally:
+        conn.close()
+
+
+
+
+
+
 

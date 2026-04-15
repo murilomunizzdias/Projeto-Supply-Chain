@@ -79,7 +79,7 @@ def fadiga_critica():
         cursor.execute("""
             SELECT fatigue_monitoring_score
             FROM "SupplyChain"
-            WHERE fatigue_monitoring_score > 0.4
+            WHERE fatigue_monitoring_score < 0.4
         """)
         resultado = cursor.fetchall()
         return {"Alerta_de_fadiga": resultado}

@@ -55,7 +55,7 @@ def lead_time_medio():
             FROM "SupplyChain"
         """)
         resultado = cursor.fetchall()
-        return {"Tempo médio de lead":resultado}
+        return {"Tempo_medio_lead":resultado}
     
     finally:
         conn.close()
@@ -73,7 +73,7 @@ def custo_transporte():
             FROM "SupplyChain"
         """)
         resultado = cursor.fetchall()
-        return {"custo_médio_transporte":resultado}
+        return {"custo_medio_transporte":resultado}
     
     finally:
         conn.close()
@@ -91,12 +91,12 @@ def consumo_medio_combustivel():
             FROM "SupplyChain"
         """)
         resultado = cursor.fetchall()
-        return {"Consumo médio de combustível":resultado}
+        return {"Consumo_medio_combustivel":resultado}
     
     finally:
         conn.close()
 
-@router.get("/kpis/taxa_média_atraso")
+@router.get("/kpis/taxa_media_atraso")
 def taxa_media_atraso():
     conn=get_conexao()
     if conn is None:
@@ -109,7 +109,7 @@ def taxa_media_atraso():
             FROM "SupplyChain"
         """)
         resultado = cursor.fetchall()
-        return {"taxa_média_atraso":resultado}
+        return {"taxa_media_atraso":resultado}
     
     finally:
         conn.close()
@@ -127,7 +127,7 @@ def taxa_fulfillment_pedidos():
             FROM "SupplyChain"
         """)
         resultado = cursor.fetchall()
-        return {"taxa_média_fulfillment":resultado}
+        return {"taxa_media_fulfillment":resultado}
     
     finally:
         conn.close()

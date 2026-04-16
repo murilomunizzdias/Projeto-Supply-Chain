@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from api.database import get_conexao
 import random
 from datetime import datetime
+
 router=APIRouter()
 
 

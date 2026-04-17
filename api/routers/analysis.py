@@ -10,7 +10,7 @@ def correlacao_clima_atraso():
         return {"erro": "Falha na conexão"}
     
     try:
-        cursor=conn.get.cursor()
+        cursor=conn.cursor()
         cursor.execute("""
                 SELECT CORR(weather_condition_severity,delay_probability)
                 FROM "SupplyChain"
@@ -27,7 +27,7 @@ def correlacao_fadiga_desvio():
         return {"erro": "Falha na conexão"}
     
     try:
-        cursor=conn.get.cursor()
+        cursor=conn.cursor()
         cursor.execute("""
                 SELECT CORR(fatigue_monitoring_score,delivery_time_deviation)
                 FROM "SupplyChain"
@@ -44,9 +44,9 @@ def correlacao_porto_lead():
         return {"erro": "Falha na conexão"}
     
     try:
-        cursor=conn.get.cursor()
+        cursor=conn.cursor()
         cursor.execute("""
-                SELECT CORR(port_congestion_level vs lead_time_days)
+                SELECT CORR(port_congestion_level,ead_time_days)
                 FROM "SupplyChain"
         """)
         resultado=cursor.fetchall()
@@ -54,22 +54,6 @@ def correlacao_porto_lead():
     finally:
         conn.close()
 
-@router.get("/analysis/correlacao_custo_frete_date")
-def correlacao_frete_date():
-    conn=get_conexao()
-    if conn is None:
-        return {"erro": "Falha na conexão"}
-    
-    try:
-        cursor=conn.get.cursor()
-        cursor.execute("""
-                SELECT CORR(shipping_costs,date)
-                FROM "SupplyChain"
-        """)
-        resultado=cursor.fetchall()
-        return{"Correlacao_frete_date":resultado}
-    finally:
-        conn.close()
 
 @router.get("/analysis/correlacao_demanda_vs_estoque")
 def correlacao_demanda_estoque():
@@ -78,7 +62,7 @@ def correlacao_demanda_estoque():
         return {"erro": "Falha na conexão"}
     
     try:
-        cursor=conn.get.cursor()
+        cursor=conn.cursor()
         cursor.execute("""
                 SELECT CORR(historical_demand,warehouse_inventory_level)
                 FROM "SupplyChain"

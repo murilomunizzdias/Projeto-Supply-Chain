@@ -1,54 +1,26 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+import AlertaCard from '../components/AlertaCard'
 
-const API = 'http://localhost:8000'
+const ALERTAS_CONFIG = [
+  { key: 'atraso',        label: 'Atraso Crítico',               endpoint: '/alerts/atraso',                    cols: ['Data','Hora','Prob. Atraso','Risco'] },
+  { key: 'comportamento', label: 'Comportamento Motorista',      endpoint: '/alerts/comportamento',             cols: ['Data','Hora','Score Comportamento'] },
+  { key: 'fadiga',        label: 'Fadiga Crítica',               endpoint: '/alerts/fadiga_critica',            cols: ['Score Fadiga'] },
+  { key: 'risco_rota',    label: 'Risco de Rota',                endpoint: '/alerts/risco_rota',                cols: ['Nível de Risco'] },
+  { key: 'porto',         label: 'Porto Congestionado',          endpoint: '/alerts/porto_congestionado',       cols: ['Nível Congestionamento'] },
+  { key: 'estoque',       label: 'Estoque Baixo',                endpoint: '/alerts/estoque_baixo',             cols: ['Nível de Estoque'] },
+  { key: 'temperatura',   label: 'Temperatura da Carga',         endpoint: '/alerts/temperatura_da_carga',      cols: ['Temperatura IoT'] },
+  { key: 'equipamentos',  label: 'Equipamentos Indisponíveis',   endpoint: '/alerts/equipamentos_indisponiveis', cols: ['Disponibilidade'] },
+]
 
-export default function AlertaCard({ config }) {
-  const [dados, setDados]     = useState(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    axios.get(`${API}${config.endpoint}`)
-      .then(r => {
-        const val = Object.values(r.data)[0]
-        setDados(Array.isArray(val) ? val : [])
-      })
-      .catch(() => setDados([]))
-      .finally(() => setLoading(false))
-  }, [])
-
-  const count = dados?.length ?? 0
-
+export default function Alertas() {
   return (
-    <div className="table-wrap">
-      <div className="table-head" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>{config.label}</span>
-        <span className={`badge ${count > 0 ? 'badge-danger' : 'badge-ok'}`}>
-          {count > 0 ? `${count} alertas` : 'Normal'}
-        </span>
+    <div>
+      <div className="page-header">
+        <div className="page-title">// ALERTAS</div>
+        <div className="page-sub">Monitoramento de indicadores críticos em tempo real</div>
       </div>
-      {loading ? (
-        <div className="loading" style={{ padding: '16px 20px' }}>Carregando...</div>
-      ) : count === 0 ? (
-        <div style={{ padding: '14px 20px', fontSize: '12px', color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>
-          Nenhum alerta ativo para este indicador.
-        </div>
-      ) : (
-        <table>
-          <thead>
-            <tr>{config.cols.map(c => <th key={c}>{c}</th>)}</tr>
-          </thead>
-          <tbody>
-            {dados.slice(0, 10).map((row, i) => (
-              <tr key={i}>
-                {(Array.isArray(row) ? row : [row]).map((cell, j) => (
-                  <td key={j}>{typeof cell === 'number' ? cell.toFixed(3) : String(cell)}</td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      {ALERTAS_CONFIG.map(cfg => (
+        <AlertaCard key={cfg.key} config={cfg} />
+      ))}
     </div>
   )
 }

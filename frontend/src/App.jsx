@@ -42,9 +42,9 @@ export default function App() {
       </aside>
 
       <main className="content">
-        {page === 'dashboard'  && <Dashboard />}
-        {page === 'alertas'    && <Alertas />}
-        {page === 'simulador'  && <Simulador />}
+        {page === 'Dashboard'  && <Dashboard />}
+        {page === 'Alertas'    && <Alertas />}
+        {page === 'Simulador'  && <Simulador />}
       </main>
     </div>
   )

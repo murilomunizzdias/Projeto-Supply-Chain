@@ -7,7 +7,7 @@ const API = 'http://localhost:8000'
 const CAMPOS = [
   { key: 'delay_probability',         label: 'Probabilidade de Atraso',   min: 0,   max: 1,    step: 0.01, hint: '0.0 = sem risco  /  1.0 = certeza de atraso' },
   { key: 'driver_behavior_score',     label: 'Score do Motorista',         min: 0,   max: 1,    step: 0.01, hint: '0.0 = péssimo  /  1.0 = excelente' },
-  { key: 'fatigue_monitoring_score',  label: 'Score de Fadiga',            min: 0,   max: 1,    step: 0.01, hint: '0.0 = fatigado  /  1.0 = descansado' },
+  { key: 'fatigue_monitoring_score',  label: 'Score de Fadiga',            min: 0,   max: 1,    step: 0.01, hint: '0.0 = descansado  /  1.0 = fadigado' },
   { key: 'route_risk_level',          label: 'Nível de Risco da Rota',     min: 0,   max: 10,   step: 0.1,  hint: '0 = segura  /  10 = crítica' },
   { key: 'port_congestion_level',     label: 'Congestionamento Portuário', min: 0,   max: 10,   step: 0.1,  hint: '0 = livre  /  10 = congestionado' },
   { key: 'warehouse_inventory_level', label: 'Nível de Estoque',           min: 0,   max: 1000, step: 1,    hint: 'unidades disponíveis no armazém' },

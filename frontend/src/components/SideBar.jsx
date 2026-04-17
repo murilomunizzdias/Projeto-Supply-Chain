@@ -25,6 +25,20 @@ export default function Sidebar({ page, setPage }) {
             <span>{n.label}</span>
           </button>
         ))}
+        <a
+          href="http://localhost:8501"
+          target="_blank"
+          rel="noreferrer"
+          className="nav-item"
+          style={{ textDecoration: 'none',
+                    display:'_blank',
+                    allignItems:'center',
+                    color: 'var(--muted)'
+           }}
+        >
+          <span className="nav-icon">📊</span>
+          <span>Dashboard Avançado</span>
+        </a>
       </nav>
       <div className="sidebar-footer">
         <div className="status-dot"></div>
